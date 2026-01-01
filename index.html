@@ -528,16 +528,43 @@
             countEl.textContent = items.length;
         }
 
-        async function fetchSuggestions(query) {
-            // Google Autocomplete API (CORS-friendly with firefox client)
-            const url = `https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}`;
-            
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Failed to fetch suggestions');
-            
-            const data = await response.json();
-            // Response format: [query, [suggestions]]
-            return data[1] || [];
+        // JSONP approach to bypass CORS
+        function fetchSuggestions(query) {
+            return new Promise((resolve, reject) => {
+                // Create unique callback name
+                const callbackName = 'googleSuggest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Set up the callback
+                window[callbackName] = function(data) {
+                    // Clean up
+                    delete window[callbackName];
+                    document.head.removeChild(script);
+                    
+                    // Response format: [query, [suggestions]]
+                    resolve(data[1] || []);
+                };
+
+                // Create script element
+                const script = document.createElement('script');
+                script.src = `https://suggestqueries.google.com/complete/search?client=chrome&callback=${callbackName}&q=${encodeURIComponent(query)}`;
+                
+                script.onerror = () => {
+                    delete window[callbackName];
+                    document.head.removeChild(script);
+                    reject(new Error('Failed to load suggestions'));
+                };
+
+                // Timeout fallback
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        delete window[callbackName];
+                        if (script.parentNode) document.head.removeChild(script);
+                        reject(new Error('Request timed out'));
+                    }
+                }, 5000);
+
+                document.head.appendChild(script);
+            });
         }
 
         async function runRecon(topic) {

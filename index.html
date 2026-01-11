@@ -3,24 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PostRecon - Scout Your Topic</title>
+    <title>PostRecon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- * lone wolf, own sky | Matt Livingston -->
     <style>
         :root {
-            --bg-primary: #0a0f0a;
-            --bg-secondary: #111a11;
-            --bg-card: #152015;
-            --border: #2a3f2a;
-            --border-glow: #3d5c3d;
-            --text-primary: #d4e5d4;
-            --text-secondary: #8aaa8a;
-            --text-dim: #5a7a5a;
-            --accent: #4ade80;
-            --accent-dim: #22c55e;
-            --accent-glow: rgba(74, 222, 128, 0.15);
-            --danger: #ef4444;
+            --bg: #fafafa;
+            --bg-elevated: #ffffff;
+            --bg-hover: #f5f5f5;
+            --bg-active: #efefef;
+            --border: #e5e5e5;
+            --border-strong: #d4d4d4;
+            --text-primary: #171717;
+            --text-secondary: #525252;
+            --text-tertiary: #a3a3a3;
+            --accent: #171717;
+            --accent-subtle: #404040;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-lg: 0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+            --transition-fast: 120ms ease;
+            --transition-normal: 200ms ease;
+            --transition-slow: 300ms ease;
         }
 
         * {
@@ -30,424 +39,437 @@
         }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--bg-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
-            line-height: 1.6;
-        }
-
-        /* Subtle grid background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                linear-gradient(var(--border) 1px, transparent 1px),
-                linear-gradient(90deg, var(--border) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: -1;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
+            padding: 3rem 1.5rem;
         }
 
-        /* Header */
+        /* Header - minimal, confident */
         header {
             margin-bottom: 3rem;
-            text-align: center;
         }
 
         .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--accent);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            background: var(--accent-glow);
-        }
-
-        .logo h1 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            font-size: 1.125rem;
+            font-weight: 600;
             color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
 
-        .logo h1 span {
-            color: var(--accent);
-        }
-
-        .tagline {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        /* Search Section */
+        /* Search - the obvious primary action */
         .search-section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
-        .search-box {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--border-glow);
-            box-shadow: 0 0 30px var(--accent-glow);
-        }
-
-        .search-label {
-            display: block;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-        }
-
-        .search-input-wrapper {
-            display: flex;
-            gap: 1rem;
+        .search-container {
+            position: relative;
         }
 
         .search-input {
-            flex: 1;
-            background: var(--bg-primary);
+            width: 100%;
+            background: var(--bg-elevated);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             padding: 1rem 1.25rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
+            padding-right: 5rem;
+            font-family: inherit;
+            font-size: 1rem;
             color: var(--text-primary);
             outline: none;
-            transition: border-color 0.2s;
+            box-shadow: var(--shadow-sm);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
 
         .search-input::placeholder {
-            color: var(--text-dim);
+            color: var(--text-tertiary);
         }
 
         .search-input:focus {
-            border-color: var(--accent-dim);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-md);
         }
 
         .search-btn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
             background: var(--accent);
-            color: var(--bg-primary);
+            color: white;
             border: none;
-            border-radius: 8px;
-            padding: 1rem 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            border-radius: var(--radius-sm);
+            padding: 0.5rem 1rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.2s;
+            transition: opacity var(--transition-fast);
         }
 
         .search-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px var(--accent-glow);
-        }
-
-        .search-btn:active {
-            transform: translateY(0);
+            opacity: 0.85;
         }
 
         .search-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Status indicator */
+        /* Status - legible state */
         .status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             margin-top: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            display: none;
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            opacity: 0;
+            transition: opacity var(--transition-normal);
         }
 
-        .status.active {
-            display: block;
-            color: var(--accent);
+        .status.visible {
+            opacity: 1;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-tertiary);
+        }
+
+        .status.loading .status-dot {
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
         }
 
         .status.error {
-            display: block;
-            color: var(--danger);
+            color: #b91c1c;
         }
 
-        /* Results Grid */
+        .status.error .status-dot {
+            background: #b91c1c;
+        }
+
+        /* Results - staged complexity, expansion under intent */
         .results {
-            display: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity var(--transition-slow), transform var(--transition-slow);
+            pointer-events: none;
         }
 
-        .results.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .results.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .results-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
         }
 
-        .results-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+        .results-meta {
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
+        }
+
+        .results-meta strong {
             color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            font-weight: 500;
         }
 
-        .results-title span {
-            color: var(--accent);
+        /* Actions - discoverable power, appear when relevant */
+        .results-actions {
+            display: flex;
+            gap: 0.25rem;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
         }
 
+        .results.visible .results-actions {
+            opacity: 1;
+            transition-delay: 200ms;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            padding: 0.375rem 0.75rem;
+            font-family: inherit;
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background var(--transition-fast), border-color var(--transition-fast);
+        }
+
+        .action-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--border);
+        }
+
+        .action-btn.copied {
+            color: var(--text-primary);
+        }
+
+        /* Results grid */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
+            gap: 1rem;
         }
 
-        @media (max-width: 800px) {
+        @media (max-width: 700px) {
             .results-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        .result-card {
-            background: var(--bg-card);
+        /* Cards - calm, functional */
+        .card {
+            background: var(--bg-elevated);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.25rem;
-            min-height: 250px;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity var(--transition-slow), transform var(--transition-slow), box-shadow var(--transition-fast);
+        }
+
+        .results.visible .card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .results.visible .card:nth-child(1) { transition-delay: 50ms; }
+        .results.visible .card:nth-child(2) { transition-delay: 100ms; }
+        .results.visible .card:nth-child(3) { transition-delay: 150ms; }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
             padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--border);
         }
 
-        .card-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            background: var(--accent-glow);
-            border: 1px solid var(--accent-dim);
-        }
-
         .card-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 500;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.03em;
         }
 
         .card-count {
-            margin-left: auto;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-dim);
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            font-variant-numeric: tabular-nums;
         }
 
         .card-list {
             list-style: none;
             flex: 1;
             overflow-y: auto;
+            margin: 0 -0.25rem;
+        }
+
+        .card-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .card-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
         }
 
         .card-list li {
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
+            padding: 0.375rem 0.5rem;
+            font-size: 0.875rem;
             color: var(--text-primary);
-            border-bottom: 1px solid var(--border);
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            transition: color 0.15s;
-        }
-
-        .card-list li:last-child {
-            border-bottom: none;
+            transition: background var(--transition-fast);
         }
 
         .card-list li:hover {
-            color: var(--accent);
+            background: var(--bg-hover);
         }
 
-        .card-list li::before {
-            content: '›';
-            margin-right: 0.5rem;
-            color: var(--text-dim);
+        .card-list li:active {
+            background: var(--bg-active);
         }
 
-        .empty-state {
-            color: var(--text-dim);
-            font-size: 0.85rem;
-            font-style: italic;
+        .card-list li.copied {
+            background: var(--bg-active);
         }
 
-        /* Actions */
-        .actions {
-            margin-top: 2rem;
+        .card-empty {
+            flex: 1;
             display: flex;
-            gap: 1rem;
+            align-items: center;
             justify-content: center;
+            font-size: 0.8125rem;
+            color: var(--text-tertiary);
         }
 
-        .action-btn {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 0.75rem 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
+        /* Keyboard shortcut hints - discoverable power */
+        .shortcut-hint {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.75rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
+            color: var(--text-tertiary);
+            opacity: 0;
+            transition: opacity var(--transition-slow);
         }
 
-        .action-btn:hover {
-            border-color: var(--border-glow);
-            color: var(--text-primary);
+        .shortcut-hint.visible {
+            opacity: 1;
+        }
+
+        .shortcut-hint kbd {
+            display: inline-block;
+            padding: 0.125rem 0.375rem;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.6875rem;
+            margin: 0 0.125rem;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-tertiary);
+        }
+
+        .empty-state p {
+            font-size: 0.9375rem;
         }
 
         /* Footer */
         footer {
-            margin-top: 4rem;
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
         }
 
-        footer p {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-dim);
+        .ml-tag {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            text-decoration: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: color var(--transition-fast), background var(--transition-fast);
+        }
+
+        .ml-tag:hover {
+            color: var(--text-secondary);
+            background: var(--bg-hover);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <div class="logo-icon">⌖</div>
-                <h1>Post<span>Recon</span></h1>
-            </div>
-            <p class="tagline">Scout your topic before you write</p>
+            <div class="logo">PostRecon</div>
         </header>
 
         <main>
             <section class="search-section">
-                <div class="search-box">
-                    <label class="search-label" for="topic">Target Acquisition</label>
-                    <form class="search-input-wrapper" id="searchForm">
-                        <input 
-                            type="text" 
-                            id="topic" 
-                            class="search-input" 
-                            placeholder="Enter a topic or keyword..."
-                            autocomplete="off"
-                        >
-                        <button type="submit" class="search-btn" id="searchBtn">Recon</button>
-                    </form>
-                    <p class="status" id="status"></p>
+                <form class="search-container" id="searchForm">
+                    <input 
+                        type="text" 
+                        id="topic" 
+                        class="search-input" 
+                        placeholder="What are you writing about?"
+                        autocomplete="off"
+                        autofocus
+                    >
+                    <button type="submit" class="search-btn" id="searchBtn">Search</button>
+                </form>
+                <div class="status" id="status">
+                    <span class="status-dot"></span>
+                    <span class="status-text"></span>
                 </div>
             </section>
 
             <section class="results" id="results">
                 <div class="results-header">
-                    <h2 class="results-title">Intel Report: <span id="topicLabel"></span></h2>
+                    <div class="results-meta">
+                        <strong id="totalCount">0</strong> suggestions for "<span id="topicLabel"></span>"
+                    </div>
+                    <div class="results-actions">
+                        <button class="action-btn" id="copyBtn">Copy all</button>
+                        <button class="action-btn" id="clearBtn">Clear</button>
+                    </div>
                 </div>
-                
+
                 <div class="results-grid">
-                    <div class="result-card">
+                    <div class="card">
                         <div class="card-header">
-                            <div class="card-icon">K</div>
-                            <span class="card-title">Keyword Ideas</span>
+                            <span class="card-title">Keywords</span>
                             <span class="card-count" id="keywordCount">0</span>
                         </div>
                         <ul class="card-list" id="keywordList"></ul>
                     </div>
 
-                    <div class="result-card">
+                    <div class="card">
                         <div class="card-header">
-                            <div class="card-icon">?</div>
                             <span class="card-title">Questions</span>
                             <span class="card-count" id="questionCount">0</span>
                         </div>
                         <ul class="card-list" id="questionList"></ul>
                     </div>
 
-                    <div class="result-card">
+                    <div class="card">
                         <div class="card-header">
-                            <div class="card-icon">+</div>
-                            <span class="card-title">Long-Tail</span>
+                            <span class="card-title">Long-tail</span>
                             <span class="card-count" id="longtailCount">0</span>
                         </div>
                         <ul class="card-list" id="longtailList"></ul>
                     </div>
                 </div>
-
-                <div class="actions">
-                    <button class="action-btn" id="copyBtn">Copy as Markdown</button>
-                    <button class="action-btn" id="clearBtn">New Recon</button>
-                </div>
             </section>
+
+            <div class="shortcut-hint" id="shortcutHint">
+                <kbd>⌘</kbd><kbd>K</kbd> to search · <kbd>⌘</kbd><kbd>C</kbd> to copy results
+            </div>
         </main>
 
         <footer>
-            <p>PostRecon v1 • Static keyword reconnaissance</p>
+            <a href="https://mattlivingston.com" class="ml-tag" target="_blank" rel="noopener">&lt;ML /&gt;</a>
         </footer>
     </div>
 
@@ -456,8 +478,10 @@
         const topicInput = document.getElementById('topic');
         const searchBtn = document.getElementById('searchBtn');
         const status = document.getElementById('status');
+        const statusText = status.querySelector('.status-text');
         const results = document.getElementById('results');
         const topicLabel = document.getElementById('topicLabel');
+        const totalCount = document.getElementById('totalCount');
         
         const keywordList = document.getElementById('keywordList');
         const questionList = document.getElementById('questionList');
@@ -469,13 +493,16 @@
 
         const copyBtn = document.getElementById('copyBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const shortcutHint = document.getElementById('shortcutHint');
 
-        // Question starters to identify question-type suggestions
         const questionStarters = ['who', 'what', 'when', 'where', 'why', 'how', 'can', 'does', 'is', 'are', 'should', 'will', 'do'];
 
-        function setStatus(message, isError = false) {
-            status.textContent = message;
-            status.className = 'status ' + (isError ? 'error' : 'active');
+        let currentData = { keywords: [], questions: [], longtail: [] };
+        let searchCount = 0;
+
+        function setStatus(message, type = 'loading') {
+            statusText.textContent = message;
+            status.className = 'status visible ' + type;
         }
 
         function clearStatus() {
@@ -491,7 +518,7 @@
             return str.split(' ').length >= 4;
         }
 
-        function categorize(suggestions, baseTopic) {
+        function categorize(suggestions) {
             const keywords = [];
             const questions = [];
             const longtail = [];
@@ -511,16 +538,24 @@
 
         function renderList(listEl, countEl, items) {
             listEl.innerHTML = '';
+            
+            // Remove any existing empty state
+            const existingEmpty = listEl.parentElement.querySelector('.card-empty');
+            if (existingEmpty) existingEmpty.remove();
+            
             if (items.length === 0) {
-                listEl.innerHTML = '<li class="empty-state">No results found</li>';
+                const empty = document.createElement('div');
+                empty.className = 'card-empty';
+                empty.textContent = 'No results';
+                listEl.parentElement.appendChild(empty);
             } else {
                 items.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;
                     li.addEventListener('click', () => {
                         navigator.clipboard.writeText(item);
-                        li.style.color = 'var(--accent)';
-                        setTimeout(() => li.style.color = '', 500);
+                        li.classList.add('copied');
+                        setTimeout(() => li.classList.remove('copied'), 300);
                     });
                     listEl.appendChild(li);
                 });
@@ -528,38 +563,30 @@
             countEl.textContent = items.length;
         }
 
-        // JSONP approach to bypass CORS
         function fetchSuggestions(query) {
             return new Promise((resolve, reject) => {
-                // Create unique callback name
-                const callbackName = 'googleSuggest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                const callbackName = 'gs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
                 
-                // Set up the callback
                 window[callbackName] = function(data) {
-                    // Clean up
                     delete window[callbackName];
                     document.head.removeChild(script);
-                    
-                    // Response format: [query, [suggestions]]
                     resolve(data[1] || []);
                 };
 
-                // Create script element
                 const script = document.createElement('script');
                 script.src = `https://suggestqueries.google.com/complete/search?client=chrome&callback=${callbackName}&q=${encodeURIComponent(query)}`;
                 
                 script.onerror = () => {
                     delete window[callbackName];
                     document.head.removeChild(script);
-                    reject(new Error('Failed to load suggestions'));
+                    reject(new Error('Failed to load'));
                 };
 
-                // Timeout fallback
                 setTimeout(() => {
                     if (window[callbackName]) {
                         delete window[callbackName];
                         if (script.parentNode) document.head.removeChild(script);
-                        reject(new Error('Request timed out'));
+                        reject(new Error('Timeout'));
                     }
                 }, 5000);
 
@@ -568,7 +595,7 @@
         }
 
         async function runRecon(topic) {
-            setStatus('Scanning primary target...');
+            setStatus('Searching...', 'loading');
             
             let allSuggestions = new Set();
             
@@ -577,43 +604,82 @@
                 const base = await fetchSuggestions(topic);
                 base.forEach(s => allSuggestions.add(s));
 
-                setStatus('Expanding search vectors...');
-
-                // Alphabet expansion for more keywords
-                const letters = ['a', 'b', 'c', 'd', 'e'];
+                // Alphabet expansion
+                const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
                 for (const letter of letters) {
-                    const expanded = await fetchSuggestions(`${topic} ${letter}`);
-                    expanded.forEach(s => allSuggestions.add(s));
+                    try {
+                        const expanded = await fetchSuggestions(`${topic} ${letter}`);
+                        expanded.forEach(s => allSuggestions.add(s));
+                    } catch (e) { /* continue */ }
                 }
 
                 // Question modifiers
-                const questionMods = ['how to', 'what is', 'why', 'can you'];
+                const questionMods = ['how to', 'what is', 'why', 'can you', 'best'];
                 for (const mod of questionMods) {
-                    const qs = await fetchSuggestions(`${mod} ${topic}`);
-                    qs.forEach(s => allSuggestions.add(s));
+                    try {
+                        const qs = await fetchSuggestions(`${mod} ${topic}`);
+                        qs.forEach(s => allSuggestions.add(s));
+                    } catch (e) { /* continue */ }
                 }
 
-                setStatus('Compiling intelligence...');
-
-                // Remove the exact base topic if present
                 allSuggestions.delete(topic);
 
-                const categorized = categorize(Array.from(allSuggestions), topic);
+                currentData = categorize(Array.from(allSuggestions));
+                const total = currentData.keywords.length + currentData.questions.length + currentData.longtail.length;
 
-                renderList(keywordList, keywordCount, categorized.keywords);
-                renderList(questionList, questionCount, categorized.questions);
-                renderList(longtailList, longtailCount, categorized.longtail);
+                renderList(keywordList, keywordCount, currentData.keywords);
+                renderList(questionList, questionCount, currentData.questions);
+                renderList(longtailList, longtailCount, currentData.longtail);
 
                 topicLabel.textContent = topic;
-                results.classList.add('active');
+                totalCount.textContent = total;
+                results.classList.add('visible');
                 clearStatus();
 
+                searchCount++;
+                if (searchCount === 2) {
+                    shortcutHint.classList.add('visible');
+                }
+
             } catch (err) {
-                setStatus('Recon failed: ' + err.message, true);
-                console.error(err);
+                setStatus('Search failed. Try again.', 'error');
             }
         }
 
+        function copyAllResults() {
+            const topic = topicLabel.textContent;
+            if (!topic) return;
+
+            let md = `# ${topic}\n\n`;
+            
+            if (currentData.keywords.length) {
+                md += `## Keywords\n${currentData.keywords.map(k => `- ${k}`).join('\n')}\n\n`;
+            }
+            if (currentData.questions.length) {
+                md += `## Questions\n${currentData.questions.map(q => `- ${q}`).join('\n')}\n\n`;
+            }
+            if (currentData.longtail.length) {
+                md += `## Long-tail\n${currentData.longtail.map(l => `- ${l}`).join('\n')}\n\n`;
+            }
+
+            navigator.clipboard.writeText(md).then(() => {
+                copyBtn.textContent = 'Copied';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy all';
+                    copyBtn.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function clearResults() {
+            topicInput.value = '';
+            results.classList.remove('visible');
+            currentData = { keywords: [], questions: [], longtail: [] };
+            topicInput.focus();
+        }
+
+        // Event listeners
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const topic = topicInput.value.trim();
@@ -624,34 +690,30 @@
             searchBtn.disabled = false;
         });
 
-        copyBtn.addEventListener('click', () => {
-            const topic = topicLabel.textContent;
-            const keywords = Array.from(keywordList.querySelectorAll('li:not(.empty-state)')).map(li => li.textContent);
-            const questions = Array.from(questionList.querySelectorAll('li:not(.empty-state)')).map(li => li.textContent);
-            const longtail = Array.from(longtailList.querySelectorAll('li:not(.empty-state)')).map(li => li.textContent);
+        copyBtn.addEventListener('click', copyAllResults);
+        clearBtn.addEventListener('click', clearResults);
 
-            let md = `# PostRecon: ${topic}\n\n`;
-            
-            if (keywords.length) {
-                md += `## Keyword Ideas\n${keywords.map(k => `- ${k}`).join('\n')}\n\n`;
-            }
-            if (questions.length) {
-                md += `## Questions\n${questions.map(q => `- ${q}`).join('\n')}\n\n`;
-            }
-            if (longtail.length) {
-                md += `## Long-Tail\n${longtail.map(l => `- ${l}`).join('\n')}\n\n`;
+        // Keyboard shortcuts - responsive to velocity
+        document.addEventListener('keydown', (e) => {
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const modifier = isMac ? e.metaKey : e.ctrlKey;
+
+            if (modifier && e.key === 'k') {
+                e.preventDefault();
+                topicInput.focus();
+                topicInput.select();
             }
 
-            navigator.clipboard.writeText(md).then(() => {
-                copyBtn.textContent = 'Copied!';
-                setTimeout(() => copyBtn.textContent = 'Copy as Markdown', 1500);
-            });
-        });
+            if (modifier && e.key === 'c' && !window.getSelection().toString()) {
+                if (results.classList.contains('visible')) {
+                    e.preventDefault();
+                    copyAllResults();
+                }
+            }
 
-        clearBtn.addEventListener('click', () => {
-            topicInput.value = '';
-            results.classList.remove('active');
-            topicInput.focus();
+            if (e.key === 'Escape') {
+                topicInput.blur();
+            }
         });
     </script>
 </body>
